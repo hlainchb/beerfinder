@@ -1,5 +1,6 @@
 <html>
 <head>
+  <title>BeerFinder!</title>
   <!--
 
      BC Beer Finder
@@ -13,6 +14,7 @@
        text-decoration: line-through;
        color: #ccc;
     }
+    footer { margin-top: 10px; }
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script type="text/javascript">
@@ -26,7 +28,7 @@
                     if( val.PRODUCT_CLASS_NAME == 'BEER' ){
                         items.push( "<li id='" + key + "'>" + val.PRODUCT_LONG_NAME + " $" + val.CURRENT_DISPLAY_PRICE + "</li>" );
                     }else{
-                        items.push( "<li class='not_beer' id='" + key + "'>" + val.PRODUCT_LONG_NAME + " $" + val.CURRENT_DISPLAY_PRICE + " - Not Beer!" + val.PRODUCT_CLASS_NAME + "</li>" );
+                        items.push( "<li class='not_beer' id='" + key + "'>" + val.PRODUCT_LONG_NAME + " $" + val.CURRENT_DISPLAY_PRICE + " - Not Beer!" + "</li>" );
                     }
                 });
             $('#results').html(items);
@@ -54,12 +56,12 @@
     <body>
       <div class="container">
           <header>
-            <h1>Find a Beverage</h1>
+            <h1>BeerFinder</h1>
           </header>
           <section id="fetch">
             <input type="text" placeholder="enter a search" id="term"/>
             
-            <button id="search">Find Beer.</button>
+            <button id="search">Find Beer!</button>
             <HR>
     
           </section>
@@ -69,6 +71,7 @@
           </section>
           
           <footer>
+            <p>Contains information licensed under the <a href="http://www.data.gov.bc.ca/local/dbc/docs/license/OGL-vbc2.0.pdf">Open Government License - British Columbia</a></p>
             <p><a href=http://catalogue.data.gov.bc.ca/dataset/bc-liquor-store-product-price-list-current-prices/>Dataset Used</a></p>
           </footer>
         </div>
