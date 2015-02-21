@@ -1,0 +1,76 @@
+<html>
+<head>
+  <!--
+
+     BC Beer Finder
+     A project for the 2015 OpenDataDay Hackathon held in Victoria, BC.
+     credits: @ageara, @herblainchbury, @opengovgear
+
+  -->
+  <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <style>
+    li.not_beer {
+       text-decoration: line-through;
+       color: #ccc;
+    }
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script type="text/javascript">
+
+    $(document).ready(function(){
+        var doStuff = function (searchterms) {
+            $.getJSON( "http://catalogue.data.gov.bc.ca/api/action/datastore_search?resource_id=ad1388e5-e315-4b61-8232-1ef3fefb8408&limit=500&q="+searchterms, function( data ) {
+
+                var items = [];
+                $.each( data.result.records, function( key, val ) {
+                    if( val.PRODUCT_CLASS_NAME == 'BEER' ){
+                        items.push( "<li id='" + key + "'>" + val.PRODUCT_LONG_NAME + " $" + val.CURRENT_DISPLAY_PRICE + "</li>" );
+                    }else{
+                        items.push( "<li class='not_beer' id='" + key + "'>" + val.PRODUCT_LONG_NAME + " $" + val.CURRENT_DISPLAY_PRICE + " - Not Beer!" + val.PRODUCT_CLASS_NAME + "</li>" );
+                    }
+                });
+            $('#results').html(items);
+        });
+    };
+  
+    var callAPI = function(){
+        var searchString = $('#term').val();
+            if(searchString === ""){
+                $('#results').html("<h2>Please enter a search term.</h2>");
+            }else{
+                doStuff(searchString);
+            }
+        }
+        $('#search').click(callAPI);
+        $('#term').keyup(function(event){
+            if(event.keyCode == 13){
+                callAPI();
+            }
+        });
+    });
+
+  </script>
+</head>
+    <body>
+      <div class="container">
+          <header>
+            <h1>Find a Beverage</h1>
+          </header>
+          <section id="fetch">
+            <input type="text" placeholder="enter a search" id="term"/>
+            
+            <button id="search">Find Beer.</button>
+            <HR>
+    
+          </section>
+          
+          <section id="results">
+            
+          </section>
+          
+          <footer>
+            <p><a href=http://catalogue.data.gov.bc.ca/dataset/bc-liquor-store-product-price-list-current-prices/>Dataset Used</a></p>
+          </footer>
+        </div>
+    </body>
+</html>
